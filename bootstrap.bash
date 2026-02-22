@@ -29,10 +29,10 @@ fi
 bw_status=$(bw status | jq -r '.status')
 case "$bw_status" in
     unauthenticated)
-        BW_SESSION=$(bw login --raw) || { log ERROR "Bitwarden login failed"; exit 1; }
+        session=$(bw login --raw) || { log ERROR "Bitwarden login failed"; exit 1; }
         ;;
     locked)
-        BW_SESSION=$(bw unlock --raw) || { log ERROR "Bitwarden unlock failed"; exit 1; }
+        session=$(bw unlock --raw) || { log ERROR "Bitwarden unlock failed"; exit 1; }
         ;;
     unlocked)
         ;;
@@ -42,7 +42,7 @@ case "$bw_status" in
         ;;
 esac
 
-token=$(BW_SESSION="$BW_SESSION" bw get password "${ITEM_ID}") || { log ERROR "Failed to retrieve password for item '${ITEM_ID}'"; exit 1; }
+token=$(BW_SESSION="$session" bw get password "$ITEM_ID") || { log ERROR "Failed to retrieve password for item $ITEM_ID"; exit 1; }
 
 GH_TOKEN=${token} gh repo clone dotfiles "$CONFIG_PATH"
 
