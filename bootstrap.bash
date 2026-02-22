@@ -31,11 +31,8 @@ case "$bw_status" in
     unauthenticated)
         session=$(bw login --raw) || { log ERROR "Bitwarden login failed"; exit 1; }
         ;;
-    locked)
+    *locked)
         session=$(bw unlock --raw) || { log ERROR "Bitwarden unlock failed"; exit 1; }
-        ;;
-    unlocked)
-        session="$BW_SESSION"
         ;;
     *)
         log ERROR "Unknown Bitwarden status: '$bw_status'"
