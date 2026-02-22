@@ -35,7 +35,7 @@ case "$bw_status" in
         session=$(bw unlock --raw) || { log ERROR "Bitwarden unlock failed"; exit 1; }
         ;;
     unlocked)
-      session="$BW_SESSION"
+        session="$BW_SESSION"
         ;;
     *)
         log ERROR "Unknown Bitwarden status: '$bw_status'"
